@@ -1,0 +1,73 @@
+<%- include('partials/header') %>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <p class="masthead__meta">Est. 2025 &nbsp;·&nbsp; Vol. I</p>
+  <h1 class="masthead__title">Insight<span>Verse</span></h1>
+  <p class="masthead__tagline">Movies &nbsp;·&nbsp; Sports &nbsp;·&nbsp; Psychology &nbsp;·&nbsp; Ideas Worth Reading</p>
+</header>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="/" class="nav-filter <%= !activeCategory ? 'active' : '' %>">All</a>
+  <div class="nav-sep"></div>
+  <% categories.forEach(cat => { %>
+    <a href="/?category=<%= cat %>" class="nav-filter <%= activeCategory === cat ? 'active' : '' %>"><%= cat %></a>
+  <% }) %>
+  <div class="nav-spacer"></div>
+  <a href="/posts/new" class="btn-new">+ New Post</a>
+</nav>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-bar__item">
+    <span class="stats-bar__num"><%= totalPosts %></span>
+    <span class="stats-bar__label">Total Posts</span>
+  </div>
+  <div class="stats-bar__item">
+    <span class="stats-bar__num"><%= categories.length %></span>
+    <span class="stats-bar__label">Categories</span>
+  </div>
+  <div class="stats-bar__item">
+    <span class="stats-bar__num"><%= posts.length %></span>
+    <span class="stats-bar__label">Showing</span>
+  </div>
+</div>
+
+<!-- POSTS -->
+<main class="main">
+  <div class="section-rule">
+    <div class="section-rule__line"></div>
+    <span class="section-rule__text"><%= activeCategory ? activeCategory + ' Posts' : 'Latest Posts' %></span>
+    <div class="section-rule__line"></div>
+  </div>
+
+  <div class="posts-grid">
+    <% if (posts.length === 0) { %>
+      <div class="empty-state">
+        <p class="empty-state__title">No posts yet.</p>
+        <p class="empty-state__sub">Be the first to write something worth reading.</p>
+      </div>
+    <% } %>
+
+    <% posts.forEach((post, idx) => { %>
+      <a href="/posts/<%= post.id %>" class="post-card <%= idx === 0 && !activeCategory ? 'post-card--featured' : '' %>">
+        <div class="post-card__body">
+          <div class="accent-line accent--<%= post.category.replace(/ /g,'') %>"></div>
+          <div class="post-card__header">
+            <span class="badge badge--<%= post.category.replace(/ /g,'') %>"><%= post.category %></span>
+            <span class="post-card__meta"><%= post.readTime %></span>
+          </div>
+          <h2 class="post-card__title"><%= post.title %></h2>
+          <p class="post-card__excerpt"><%= post.excerpt %></p>
+          <div class="post-card__footer">
+            <span class="post-card__date"><%= post.date %></span>
+            <span class="post-card__read">Read →</span>
+          </div>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

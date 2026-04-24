@@ -1,0 +1,51 @@
+<%- include('partials/header', { pageTitle: post.title }) %>
+
+<!-- MASTHEAD (slim) -->
+<header class="masthead" style="padding: 1rem 1.5rem 0.75rem;">
+  <h1 class="masthead__title" style="font-size: clamp(1.5rem, 4vw, 2.5rem);">Insight<span>Verse</span></h1>
+</header>
+
+<nav class="navbar">
+  <a href="/" class="nav-filter">All</a>
+  <div class="nav-sep"></div>
+  <a href="/?category=Movies"     class="nav-filter">Movies</a>
+  <a href="/?category=Sports"     class="nav-filter">Sports</a>
+  <a href="/?category=Psychology" class="nav-filter">Psychology</a>
+  <a href="/?category=General"    class="nav-filter">General</a>
+  <div class="nav-spacer"></div>
+  <a href="/posts/new" class="btn-new">+ New Post</a>
+</nav>
+
+<main>
+  <article class="post-page">
+    <a href="/" class="post-page__back">← Back to all posts</a>
+
+    <header class="post-page__header">
+      <div class="accent-line accent--<%= post.category.replace(/ /g,'') %>"></div>
+      <div class="post-page__meta">
+        <span class="badge badge--<%= post.category.replace(/ /g,'') %>"><%= post.category %></span>
+      </div>
+      <h1 class="post-page__title"><%= post.title %></h1>
+      <div class="post-page__byline">
+        <span>Published <%= post.date %></span>
+        <span><%= post.readTime %></span>
+      </div>
+    </header>
+
+    <div class="post-page__content">
+      <% post.content.split('\n').forEach(para => { %>
+        <% if (para.trim()) { %><p><%= para %></p><% } %>
+      <% }) %>
+    </div>
+
+    <div class="post-page__actions">
+      <a href="/posts/<%= post.id %>/edit" class="btn btn-outline">Edit Post</a>
+      <form action="/posts/<%= post.id %>/delete" method="POST" style="display:inline;" onsubmit="return confirm('Delete this post?')">
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+      <a href="/" class="btn btn-outline" style="margin-left: auto;">← All Posts</a>
+    </div>
+  </article>
+</main>
+
+<%- include('partials/footer') %>
